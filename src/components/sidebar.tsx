@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { appRouteItems, type SidebarIconKey } from "../router/app-routes";
+import { PyramidIcon, type Pyramid } from "lucide-react";
 
 function IconDot() {
   return <span className="h-1.5 w-1.5 rounded-full bg-slate-500" />;
@@ -160,26 +161,9 @@ export function Sidebar() {
     <aside className="fixed left-3 top-1/2 z-30 -translate-y-1/2 sm:left-4">
       <div className="rounded-[1.8rem] bg-white p-1.5 shadow-xl ring-1 ring-slate-200/70">
         <div className="flex h-[86dvh] max-h-215 w-[3.35rem] flex-col items-center rounded-3xl bg-slate-950 py-3 text-slate-500">
-          <button
-            type="button"
-            className="grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-700 shadow"
-            aria-label="Área principal"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              className="h-4 w-4"
-              aria-hidden="true"
-            >
-              <path
-                d="M7 12.5L11 16.5L17 8.5"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+          <div className="grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-700 shadow">
+            <PyramidIcon />
+          </div>
 
           <nav
             className="mt-4 flex flex-1 flex-col items-center gap-2"
