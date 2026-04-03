@@ -1,4 +1,14 @@
+import type { FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+
 export function LoginPage() {
+  const navigate = useNavigate();
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    navigate("/app/dashboard");
+  }
+
   return (
     <main className="flex h-dvh w-full items-center justify-center overflow-hidden bg-slate-100 px-2 py-4 sm:px-4 sm:py-8 lg:px-8 lg:py-10">
       <section className="w-full max-w-full overflow-hidden rounded-2xl  p-2 sm:max-w-6xl sm:p-4 lg:p-6">
@@ -14,13 +24,14 @@ export function LoginPage() {
                   Bem-vindo de volta
                 </h1>
                 <p className="mt-2 text-base font-medium text-slate-500 sm:text-lg">
-                  Acesse seu portal exclusivo de gestão e performance.
+                  Acesse seu portal exclusivo para marketing de sua empresa.
                 </p>
               </div>
 
               <form
                 className="mt-8 space-y-5 sm:mt-10 sm:space-y-6"
                 aria-label="Formulário de login"
+                onSubmit={handleSubmit}
               >
                 <div>
                   <label
