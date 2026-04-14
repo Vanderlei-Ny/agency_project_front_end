@@ -1,4 +1,5 @@
 import type { ReactElement } from "react";
+import { HomePage } from "../pages/home-page";
 import { WorkspacePage } from "../pages/workspace-page";
 
 export type SidebarIconKey =
@@ -18,6 +19,12 @@ export type AppRouteItem = {
 };
 
 export const appRouteItems: AppRouteItem[] = [
+  {
+    path: "home",
+    label: "Home",
+    icon: "compass",
+    element: <HomePage />,
+  },
   {
     path: "dashboard",
     label: "Dashboard",

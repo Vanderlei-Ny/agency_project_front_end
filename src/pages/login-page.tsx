@@ -1,12 +1,32 @@
 import type { FormEvent } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { saveAuthToken } from "../features/auth/auth-storage";
+import { login } from "../http/services/auth-service";
 
 export function LoginPage() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    navigate("/app/dashboard");
+
+    try {
+      setIsLoading(true);
+      setErrorMessage(null);
+
+      const response = await login({ email, password });
+
+      saveAuthToken(response.token);
+      navigate("/app/home");
+    } catch {
+      setErrorMessage("Nao foi possivel autenticar. Verifique e-mail e senha.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -44,7 +64,10 @@ export function LoginPage() {
                     id="email"
                     name="email"
                     type="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                     placeholder="exemplo@aether.agency"
+                    required
                     className="h-12 w-full rounded-xl border border-slate-200 bg-slate-100 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-slate-400 focus:bg-white"
                   />
                 </div>
@@ -69,8 +92,9 @@ export function LoginPage() {
                       id="password"
                       name="password"
                       type="password"
-                      value="***********"
-                      readOnly
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      required
                       className="h-12 w-full rounded-xl border border-slate-200 bg-slate-100 px-4 pr-11 text-sm tracking-[0.2em] text-slate-700 outline-none"
                     />
                     <span className="pointer-events-none absolute inset-y-0 right-4 inline-flex items-center text-slate-400">
@@ -108,11 +132,18 @@ export function LoginPage() {
                   Lembrar de mim por 30 dias
                 </label>
 
+                {errorMessage ? (
+                  <p className="text-sm font-semibold text-red-500">
+                    {errorMessage}
+                  </p>
+                ) : null}
+
                 <button
                   type="submit"
+                  disabled={isLoading}
                   className="mt-1 h-12 w-full rounded-xl bg-black text-base font-bold text-white shadow-sm transition hover:bg-slate-700"
                 >
-                  Entrar
+                  {isLoading ? "Entrando..." : "Entrar"}
                 </button>
               </form>
 
