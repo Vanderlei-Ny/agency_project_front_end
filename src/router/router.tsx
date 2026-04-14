@@ -9,7 +9,7 @@ import { LoginPage } from "../pages/login-page";
 import { appRouteItems } from "./app-routes";
 
 const appChildren: RouteObject[] = [
-  { index: true, element: <Navigate to="dashboard" replace /> },
+  { index: true, element: <Navigate to="home" replace /> },
   { path: "sidebar-preview", element: <div className="min-h-dvh" /> },
   ...appRouteItems.map((route) => ({
     path: route.path,
