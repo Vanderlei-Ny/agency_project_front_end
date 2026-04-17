@@ -134,7 +134,7 @@ function Sidebar({ active, onNav }) {
           color: C.white, fontFamily: serif, fontSize: 16, fontWeight: 600,
         }}>V</div>
         <div>
-          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 600, color: C.text }}>Vanderlei</div>
+          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 600, color: C.text }}>Vera</div>
           <div style={{ fontFamily: sans, fontSize: 11, color: C.textMuted }}>Cliente</div>
         </div>
       </div>
@@ -443,7 +443,7 @@ export default function OmnifyDashboard() {
               fontFamily: serif, fontSize: 34, fontWeight: 600,
               color: C.text, marginBottom: 6, letterSpacing: "-0.5px",
             }}>
-              Bom dia, <span style={{ fontStyle: "italic", color: C.blue }}>Vanderlei</span>
+              Bom dia, <span style={{ fontStyle: "italic", color: C.blue }}>Vera</span>
             </h1>
             <p style={{ fontFamily: sans, fontSize: 14, color: C.textMuted }}>
               Acompanhe seus projetos e aprove conteúdos em um só lugar.
