@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 /*
- * Omnify Marketing — Client Dashboard
- * Palette extracted from logo: warm cream (#EDDCC9) + steel blue (#8AAFC4)
- * Aesthetic: luxury-editorial, soft, refined — matches the serif elegance of the Omnify logo
+ * Omnify Marketing — Dashboard (conteúdo apenas)
+ * Este componente deve ser usado DENTRO do <Layout>
+ * A sidebar e a topbar vêm do Layout.jsx
  */
 
 const FONTS = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap";
@@ -14,7 +14,6 @@ if (!document.querySelector(`link[href="${FONTS}"]`)) {
   document.head.appendChild(l);
 }
 
-/* ── palette ── */
 const C = {
   cream:      "#EDDCC9",
   creamLight: "#F5EDE2",
@@ -34,8 +33,8 @@ const C = {
   pending:    "#8AAFC4",
 };
 
-const serif  = "'Cormorant Garamond', Georgia, serif";
-const sans   = "'Outfit', system-ui, sans-serif";
+const serif = "'Cormorant Garamond', Georgia, serif";
+const sans  = "'Outfit', system-ui, sans-serif";
 
 /* ── mock data ── */
 const mockProjects = [
@@ -48,99 +47,20 @@ const mockProjects = [
 ];
 
 const statusConfig = {
-  approved:  { label: "Aprovado",     color: C.success, bg: C.success + "18" },
-  pending:   { label: "Pendente",     color: C.pending, bg: C.pending + "18" },
-  revision:  { label: "Em revisão",   color: C.warning, bg: C.warning + "18" },
-  rejected:  { label: "Reprovado",    color: C.danger,  bg: C.danger  + "18" },
+  approved:  { label: "Aprovado",   color: C.success, bg: C.success + "18" },
+  pending:   { label: "Pendente",   color: C.pending, bg: C.pending + "18" },
+  revision:  { label: "Em revisão", color: C.warning, bg: C.warning + "18" },
+  rejected:  { label: "Reprovado",  color: C.danger,  bg: C.danger  + "18" },
 };
 
 const stats = [
-  { label: "Total de projetos",   value: "12",  icon: "📁" },
-  { label: "Aguardando revisão",  value: "3",   icon: "⏳" },
-  { label: "Aprovados este mês",  value: "7",   icon: "✓"  },
-  { label: "Comentários",         value: "18",  icon: "💬" },
+  { label: "Total de projetos",  value: "12", icon: "📁" },
+  { label: "Aguardando revisão", value: "3",  icon: "⏳" },
+  { label: "Aprovados este mês", value: "7",  icon: "✓"  },
+  { label: "Comentários",        value: "18", icon: "💬" },
 ];
 
-const navItems = [
-  { id: "dashboard",  label: "Painel",       icon: "◫" },
-  { id: "projects",   label: "Projetos",     icon: "◧" },
-  { id: "briefings",  label: "Briefings",    icon: "✎" },
-  { id: "messages",   label: "Mensagens",    icon: "◹" },
-  { id: "settings",   label: "Configurações",icon: "⚙" },
-];
-
-/* ── components ── */
-
-function Sidebar({ active, onNav }) {
-  return (
-    <div style={{
-      width: 260, minHeight: "100vh", background: C.white,
-      borderRight: `1px solid ${C.borderLight}`,
-      display: "flex", flexDirection: "column",
-      padding: "32px 0", position: "fixed", left: 0, top: 0, bottom: 0, zIndex: 10,
-    }}>
-      {/* Logo */}
-      <div style={{ padding: "0 28px", marginBottom: 48 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
-          <span style={{
-            fontFamily: serif, fontSize: 32, fontWeight: 300,
-            color: C.blue, letterSpacing: "-0.5px",
-          }}>O</span>
-          <span style={{
-            fontFamily: serif, fontSize: 18, fontWeight: 500,
-            color: C.blue, letterSpacing: "3px", textTransform: "uppercase",
-          }}>mnify</span>
-          <span style={{
-            fontFamily: serif, fontSize: 22, color: C.blue, fontWeight: 300, marginLeft: -2
-          }}>.</span>
-        </div>
-        <div style={{
-          fontFamily: sans, fontSize: 10, color: C.textMuted,
-          letterSpacing: "3px", textTransform: "uppercase", marginTop: 2, marginLeft: 2,
-        }}>Marketing</div>
-      </div>
-
-      {/* Nav */}
-      <nav style={{ flex: 1, padding: "0 16px" }}>
-        {navItems.map((item) => {
-          const isActive = active === item.id;
-          return (
-            <button key={item.id} onClick={() => onNav(item.id)} style={{
-              width: "100%", display: "flex", alignItems: "center", gap: 14,
-              padding: "13px 16px", borderRadius: 10, border: "none", cursor: "pointer",
-              marginBottom: 4, transition: "all 0.2s ease",
-              background: isActive ? C.creamPale : "transparent",
-              fontFamily: sans, fontSize: 14, fontWeight: isActive ? 600 : 400,
-              color: isActive ? C.blueDeep : C.textMuted,
-              borderLeft: isActive ? `3px solid ${C.blue}` : "3px solid transparent",
-            }}>
-              <span style={{ fontSize: 16, opacity: isActive ? 1 : 0.5, width: 20, textAlign: "center" }}>{item.icon}</span>
-              {item.label}
-            </button>
-          );
-        })}
-      </nav>
-
-      {/* User */}
-      <div style={{
-        padding: "20px 24px", margin: "0 16px",
-        borderTop: `1px solid ${C.borderLight}`,
-        display: "flex", alignItems: "center", gap: 12,
-      }}>
-        <div style={{
-          width: 38, height: 38, borderRadius: "50%",
-          background: `linear-gradient(135deg, ${C.blue}, ${C.blueDark})`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          color: C.white, fontFamily: serif, fontSize: 16, fontWeight: 600,
-        }}>V</div>
-        <div>
-          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 600, color: C.text }}>Vera</div>
-          <div style={{ fontFamily: sans, fontSize: 11, color: C.textMuted }}>Cliente</div>
-        </div>
-      </div>
-    </div>
-  );
-}
+/* ── subcomponentes ── */
 
 function StatCard({ stat, index }) {
   const [hovered, setHovered] = useState(false);
@@ -158,9 +78,7 @@ function StatCard({ stat, index }) {
         animation: `fadeUp 0.5s ease ${index * 0.08}s both`,
       }}
     >
-      <div style={{
-        display: "flex", justifyContent: "space-between", alignItems: "flex-start",
-      }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
           <div style={{
             fontFamily: sans, fontSize: 11, fontWeight: 500,
@@ -256,37 +174,29 @@ function ProjectCard({ project, index, onSelect }) {
 
 function ProjectModal({ project, onClose, onAction }) {
   if (!project) return null;
-  const cfg = statusConfig[project.status];
   return (
     <div style={{
       position: "fixed", inset: 0, zIndex: 100,
       display: "flex", alignItems: "center", justifyContent: "center",
       animation: "fadeIn 0.25s ease",
     }} onClick={onClose}>
-      {/* Backdrop */}
       <div style={{
         position: "absolute", inset: 0,
         background: "rgba(61,61,61,0.35)", backdropFilter: "blur(6px)",
       }} />
-      {/* Modal */}
       <div onClick={(e) => e.stopPropagation()} style={{
         position: "relative", background: C.creamPale,
         borderRadius: 18, width: "90%", maxWidth: 560,
         padding: "36px 40px", animation: "slideUp 0.35s ease",
         boxShadow: "0 24px 64px rgba(0,0,0,0.12)",
       }}>
-        {/* Close */}
         <button onClick={onClose} style={{
           position: "absolute", top: 18, right: 20,
           background: "none", border: "none", cursor: "pointer",
           fontSize: 22, color: C.textMuted, fontFamily: sans,
           width: 36, height: 36, borderRadius: "50%",
           display: "flex", alignItems: "center", justifyContent: "center",
-          transition: "background 0.2s",
-        }}
-          onMouseEnter={(e) => e.currentTarget.style.background = C.border + "60"}
-          onMouseLeave={(e) => e.currentTarget.style.background = "none"}
-        >×</button>
+        }}>×</button>
 
         <div style={{
           fontFamily: sans, fontSize: 10, fontWeight: 600,
@@ -300,8 +210,7 @@ function ProjectModal({ project, onClose, onAction }) {
         }}>{project.title}</h2>
 
         <div style={{
-          display: "flex", alignItems: "center", gap: 12,
-          marginBottom: 24,
+          display: "flex", alignItems: "center", gap: 12, marginBottom: 24,
         }}>
           <StatusBadge status={project.status} />
           <span style={{ fontFamily: sans, fontSize: 12, color: C.textMuted }}>{project.date}</span>
@@ -322,7 +231,6 @@ function ProjectModal({ project, onClose, onAction }) {
           }}>{project.preview}</p>
         </div>
 
-        {/* Comment area */}
         <div style={{ marginBottom: 28 }}>
           <div style={{
             fontFamily: sans, fontSize: 11, fontWeight: 600,
@@ -344,55 +252,32 @@ function ProjectModal({ project, onClose, onAction }) {
           />
         </div>
 
-        {/* Action buttons */}
         <div style={{ display: "flex", gap: 10 }}>
-          <button
-            onClick={() => onAction(project.id, "approved")}
-            style={{
-              flex: 1, padding: "14px",
-              background: C.success, color: C.white,
-              border: "none", borderRadius: 10,
-              fontFamily: sans, fontSize: 14, fontWeight: 600,
-              cursor: "pointer", transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = "0.9"}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}
-          >✓  Aprovar</button>
+          <button onClick={() => onAction(project.id, "approved")} style={{
+            flex: 1, padding: "14px", background: C.success, color: C.white,
+            border: "none", borderRadius: 10, fontFamily: sans, fontSize: 14,
+            fontWeight: 600, cursor: "pointer", transition: "opacity 0.2s",
+          }}>✓  Aprovar</button>
 
-          <button
-            onClick={() => onAction(project.id, "revision")}
-            style={{
-              flex: 1, padding: "14px",
-              background: C.warning + "20", color: C.warning,
-              border: `1.5px solid ${C.warning}40`,
-              borderRadius: 10, fontFamily: sans, fontSize: 14,
-              fontWeight: 600, cursor: "pointer", transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = C.warning + "30"}
-            onMouseLeave={(e) => e.currentTarget.style.background = C.warning + "20"}
-          >↻  Pedir ajuste</button>
+          <button onClick={() => onAction(project.id, "revision")} style={{
+            flex: 1, padding: "14px", background: C.warning + "20", color: C.warning,
+            border: `1.5px solid ${C.warning}40`, borderRadius: 10,
+            fontFamily: sans, fontSize: 14, fontWeight: 600, cursor: "pointer",
+          }}>↻  Pedir ajuste</button>
 
-          <button
-            onClick={() => onAction(project.id, "rejected")}
-            style={{
-              flex: 1, padding: "14px",
-              background: C.danger + "15", color: C.danger,
-              border: `1.5px solid ${C.danger}30`,
-              borderRadius: 10, fontFamily: sans, fontSize: 14,
-              fontWeight: 600, cursor: "pointer", transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = C.danger + "25"}
-            onMouseLeave={(e) => e.currentTarget.style.background = C.danger + "15"}
-          >✕  Reprovar</button>
+          <button onClick={() => onAction(project.id, "rejected")} style={{
+            flex: 1, padding: "14px", background: C.danger + "15", color: C.danger,
+            border: `1.5px solid ${C.danger}30`, borderRadius: 10,
+            fontFamily: sans, fontSize: 14, fontWeight: 600, cursor: "pointer",
+          }}>✕  Reprovar</button>
         </div>
       </div>
     </div>
   );
 }
 
-/* ── main ── */
-export default function OmnifyDashboard() {
-  const [activeNav, setActiveNav] = useState("dashboard");
+/* ── Dashboard principal ── */
+export default function Dashboard() {
   const [filter, setFilter] = useState("all");
   const [projects, setProjects] = useState(mockProjects);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -420,122 +305,100 @@ export default function OmnifyDashboard() {
   ];
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: C.creamPale,
-      fontFamily: sans,
-      color: C.text,
-    }}>
-      <Sidebar active={activeNav} onNav={setActiveNav} />
-
-      {/* Main content */}
-      <div style={{ marginLeft: 260, padding: "36px 44px" }}>
-        {/* Header */}
-        <div style={{
-          display: "flex", justifyContent: "space-between",
-          alignItems: "flex-start", marginBottom: 36,
-          opacity: mounted ? 1 : 0,
-          transform: mounted ? "translateY(0)" : "translateY(10px)",
-          transition: "all 0.5s ease",
-        }}>
-          <div>
-            <h1 style={{
-              fontFamily: serif, fontSize: 34, fontWeight: 600,
-              color: C.text, marginBottom: 6, letterSpacing: "-0.5px",
-            }}>
-              Bom dia, <span style={{ fontStyle: "italic", color: C.blue }}>Vera</span>
-            </h1>
-            <p style={{ fontFamily: sans, fontSize: 14, color: C.textMuted }}>
-              Acompanhe seus projetos e aprove conteúdos em um só lugar.
-            </p>
-          </div>
-
-          <button style={{
-            padding: "12px 28px", background: C.blue,
-            color: C.white, border: "none", borderRadius: 10,
-            fontFamily: sans, fontSize: 13, fontWeight: 600,
-            cursor: "pointer", transition: "all 0.2s",
-            letterSpacing: "0.3px",
-          }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = C.blueDark;
-              e.currentTarget.style.transform = "translateY(-1px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = C.blue;
-              e.currentTarget.style.transform = "translateY(0)";
-            }}
-          >+ Novo Briefing</button>
-        </div>
-
-        {/* Stats */}
-        <div style={{
-          display: "flex", gap: 16, marginBottom: 40, flexWrap: "wrap",
-        }}>
-          {stats.map((s, i) => <StatCard key={s.label} stat={s} index={i} />)}
-        </div>
-
-        {/* Projects section */}
+    <div>
+      {/* Header */}
+      <div style={{
+        display: "flex", justifyContent: "space-between",
+        alignItems: "flex-start", marginBottom: 36,
+        opacity: mounted ? 1 : 0,
+        transform: mounted ? "translateY(0)" : "translateY(10px)",
+        transition: "all 0.5s ease",
+      }}>
         <div>
-          <div style={{
-            display: "flex", justifyContent: "space-between",
-            alignItems: "center", marginBottom: 24,
+          <h1 style={{
+            fontFamily: serif, fontSize: 34, fontWeight: 600,
+            color: C.text, marginBottom: 6, letterSpacing: "-0.5px",
           }}>
-            <h2 style={{
-              fontFamily: serif, fontSize: 24, fontWeight: 600,
-              color: C.text,
-            }}>Seus Projetos</h2>
-
-            {/* Filter pills */}
-            <div style={{ display: "flex", gap: 6 }}>
-              {filters.map((f) => (
-                <button
-                  key={f.key}
-                  onClick={() => setFilter(f.key)}
-                  style={{
-                    padding: "8px 18px", borderRadius: 20,
-                    border: `1.5px solid ${filter === f.key ? C.blue : C.border}`,
-                    background: filter === f.key ? C.blue + "12" : "transparent",
-                    color: filter === f.key ? C.blueDeep : C.textMuted,
-                    fontFamily: sans, fontSize: 12, fontWeight: filter === f.key ? 600 : 400,
-                    cursor: "pointer", transition: "all 0.2s",
-                  }}
-                >{f.label}</button>
-              ))}
-            </div>
-          </div>
-
-          {/* Project grid */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
-            gap: 18,
-          }}>
-            {filteredProjects.map((p, i) => (
-              <ProjectCard key={p.id} project={p} index={i} onSelect={setSelectedProject} />
-            ))}
-          </div>
-
-          {filteredProjects.length === 0 && (
-            <div style={{
-              textAlign: "center", padding: "64px 0",
-              color: C.textMuted, fontFamily: sans,
-            }}>
-              <div style={{ fontSize: 40, marginBottom: 12, opacity: 0.4 }}>◫</div>
-              <p style={{ fontSize: 15 }}>Nenhum projeto com esse filtro.</p>
-            </div>
-          )}
+            Bom dia, <span style={{ fontStyle: "italic", color: C.blue }}>Vera</span>
+          </h1>
+          <p style={{ fontFamily: sans, fontSize: 14, color: C.textMuted }}>
+            Acompanhe seus projetos e aprove conteúdos em um só lugar.
+          </p>
         </div>
+
+        <button style={{
+          padding: "12px 28px", background: C.blue,
+          color: C.white, border: "none", borderRadius: 10,
+          fontFamily: sans, fontSize: 13, fontWeight: 600,
+          cursor: "pointer", transition: "all 0.2s",
+          letterSpacing: "0.3px",
+        }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = C.blueDark;
+            e.currentTarget.style.transform = "translateY(-1px)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = C.blue;
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
+        >+ Novo Briefing</button>
       </div>
 
-      {/* Modal */}
+      {/* Stats */}
+      <div style={{ display: "flex", gap: 16, marginBottom: 40, flexWrap: "wrap" }}>
+        {stats.map((s, i) => <StatCard key={s.label} stat={s} index={i} />)}
+      </div>
+
+      {/* Projetos */}
+      <div>
+        <div style={{
+          display: "flex", justifyContent: "space-between",
+          alignItems: "center", marginBottom: 24, flexWrap: "wrap", gap: 12,
+        }}>
+          <h2 style={{
+            fontFamily: serif, fontSize: 24, fontWeight: 600, color: C.text,
+          }}>Seus Projetos</h2>
+
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {filters.map((f) => (
+              <button key={f.key} onClick={() => setFilter(f.key)} style={{
+                padding: "8px 18px", borderRadius: 20,
+                border: `1.5px solid ${filter === f.key ? C.blue : C.border}`,
+                background: filter === f.key ? C.blue + "12" : "transparent",
+                color: filter === f.key ? C.blueDeep : C.textMuted,
+                fontFamily: sans, fontSize: 12, fontWeight: filter === f.key ? 600 : 400,
+                cursor: "pointer", transition: "all 0.2s",
+              }}>{f.label}</button>
+            ))}
+          </div>
+        </div>
+
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+          gap: 18,
+        }}>
+          {filteredProjects.map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i} onSelect={setSelectedProject} />
+          ))}
+        </div>
+
+        {filteredProjects.length === 0 && (
+          <div style={{
+            textAlign: "center", padding: "64px 0", color: C.textMuted,
+          }}>
+            <div style={{ fontSize: 40, marginBottom: 12, opacity: 0.4 }}>◫</div>
+            <p style={{ fontFamily: sans, fontSize: 15 }}>Nenhum projeto com esse filtro.</p>
+          </div>
+        )}
+      </div>
+
       <ProjectModal
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
         onAction={handleAction}
       />
 
-      {/* Keyframes & global */}
       <style>{`
         @keyframes fadeUp {
           from { opacity: 0; transform: translateY(14px); }
@@ -549,11 +412,6 @@ export default function OmnifyDashboard() {
           from { opacity: 0; transform: translateY(24px) scale(0.97); }
           to   { opacity: 1; transform: translateY(0) scale(1); }
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        textarea::placeholder { color: ${C.textMuted}; opacity: 0.6; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: ${C.border}; border-radius: 3px; }
       `}</style>
     </div>
   );
