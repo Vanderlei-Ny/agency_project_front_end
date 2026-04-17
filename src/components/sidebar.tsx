@@ -1,7 +1,14 @@
 import type { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import { appRouteItems, type SidebarIconKey } from "../router/app-routes";
-import { ChevronLeft, Menu, PyramidIcon } from "lucide-react";
+import {
+  agencyRoutes,
+  clientRoutes,
+  type SidebarIconKey,
+} from "../router/app-routes";
+import { clearAuthToken, getUserType } from "../features/auth/auth-storage";
+import { useToast } from "../features/toast/toast-context";
+import { ChevronLeft, Menu, PyramidIcon, LogOut } from "lucide-react";
 
 function IconDot() {
   return <span className="h-1.5 w-1.5 rounded-full bg-slate-500" />;
@@ -167,6 +174,19 @@ export function Sidebar({
   onOpenMobile,
   onCloseMobile,
 }: SidebarProps) {
+  const navigate = useNavigate();
+  const { addToast } = useToast();
+
+  // Obter rotas baseado no tipo de usuário
+  const userType = getUserType();
+  const routes = userType === "client" ? clientRoutes : agencyRoutes;
+
+  function handleLogout() {
+    clearAuthToken();
+    addToast("Você foi desconectado", "info");
+    navigate("/login");
+  }
+
   return (
     <>
       <button
@@ -215,7 +235,7 @@ export function Sidebar({
               className="mt-3 flex flex-1 flex-col items-center gap-2"
               aria-label="Navegação principal"
             >
-              {appRouteItems.map((route) => (
+              {routes.map((route) => (
                 <NavLink
                   key={route.path}
                   to={`/app/${route.path}`}
@@ -238,27 +258,15 @@ export function Sidebar({
 
             <div className="mb-1 mt-auto flex flex-col items-center gap-2">
               <IconDot />
-              <SideActionButton>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="h-4 w-4"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M12 8V16"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M8 12H16"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </SideActionButton>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="grid h-9 w-9 place-items-center rounded-full text-slate-400 transition hover:bg-red-800/20 hover:text-red-400"
+                aria-label="Fazer logout"
+                title="Logout"
+              >
+                <LogOut className="h-4 w-4" aria-hidden="true" />
+              </button>
             </div>
           </div>
         </div>
@@ -283,7 +291,7 @@ export function Sidebar({
               className="mt-3 flex flex-1 flex-col items-center gap-2"
               aria-label="Navegação principal"
             >
-              {appRouteItems.map((route) => (
+              {routes.map((route) => (
                 <NavLink
                   key={route.path}
                   to={`/app/${route.path}`}
@@ -305,27 +313,15 @@ export function Sidebar({
 
             <div className="mb-1 mt-auto flex flex-col items-center gap-2">
               <IconDot />
-              <SideActionButton>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="h-4 w-4"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M12 8V16"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M8 12H16"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </SideActionButton>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="grid h-9 w-9 place-items-center rounded-full text-slate-400 transition hover:bg-red-800/20 hover:text-red-400"
+                aria-label="Fazer logout"
+                title="Logout"
+              >
+                <LogOut className="h-4 w-4" aria-hidden="true" />
+              </button>
             </div>
           </div>
         </div>

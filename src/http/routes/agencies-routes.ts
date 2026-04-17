@@ -1,3 +1,3 @@
 export const agenciesRoutes = {
-  list: "/admin/agencies",
+  list: "/agencies",
 };

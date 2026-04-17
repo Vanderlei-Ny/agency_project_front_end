@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import { HomePage } from "../pages/home-page";
 import { WorkspacePage } from "../pages/workspace-page";
+import { ClientAgencySelector } from "../pages/client-agency-selector";
 
 export type SidebarIconKey =
   | "compass"
@@ -18,7 +19,8 @@ export type AppRouteItem = {
   element: ReactElement;
 };
 
-export const appRouteItems: AppRouteItem[] = [
+// Rotas para agências
+export const agencyRoutes: AppRouteItem[] = [
   {
     path: "home",
     label: "Home",
@@ -103,3 +105,22 @@ export const appRouteItems: AppRouteItem[] = [
     ),
   },
 ];
+
+// Rotas para clientes
+export const clientRoutes: AppRouteItem[] = [
+  {
+    path: "home",
+    label: "Home",
+    icon: "compass",
+    element: <HomePage />,
+  },
+  {
+    path: "agencias",
+    label: "Escolha uma Agência",
+    icon: "grid",
+    element: <ClientAgencySelector />,
+  },
+];
+
+// Para compatibilidade com código existente
+export const appRouteItems: AppRouteItem[] = agencyRoutes;
