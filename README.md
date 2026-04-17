@@ -1,73 +1,108 @@
-# React + TypeScript + Vite
+# Agency Project Front End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A front-end project built with **React**, **TypeScript**, and **Vite**, focused on creating a modern, responsive, and component-based interface for an agency-style application.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## About the project
 
-## React Compiler
+This project was developed to practice front-end development concepts using React and TypeScript.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The application is structured with reusable components and includes interface sections such as:
 
-## Expanding the ESLint configuration
+- **Landing Page**
+- **Layout**
+- **Messages**
+- **Dashboard**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The main goal of the project is to improve skills in:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- component organization
+- page structure
+- responsive design
+- clean code practices
+- React project architecture
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Technologies used
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **React**
+- **TypeScript**
+- **Vite**
+- **CSS**
+- **ESLint**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Getting started
+
+### Prerequisites
+
+Before running the project, make sure you have installed:
+
+- **Node.js**
+- **npm**
+- **Git**
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone <YOUR_REPOSITORY_URL>
+
+Access the project folder:
+
+cd agency_project_front_end
+
+Install dependencies:
+
+npm install
+
+Run the development server:
+
+npm run dev
+
+Then open the local address shown in the terminal, usually:
+
+http://localhost:5173
+Available scripts
+npm run dev
+
+Starts the development server.
+
+npm run build
+
+Builds the project for production.
+
+npm run preview
+
+Previews the production build locally.
+
+npm run lint
+
+Runs ESLint to check code quality.
+
+Project structure
+src/
+ ├── components/
+ ├── assets/
+ ├── App.tsx
+ ├── main.tsx
+Features
+Responsive user interface
+Reusable component structure
+Multiple interface sections
+Fast development workflow with Vite
+Future improvements
+Add routing
+Improve styling and responsiveness
+Connect the front-end to an API
+Add more interactive features
+Improve accessibility
+Author
+
+Developed by Grupo 2

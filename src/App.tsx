@@ -1,3 +1,4 @@
+
 import { AppRouter } from "./router/router";
 import { ToastProvider } from "./features/toast/toast-context";
 import { ToastContainer } from "./features/toast/toast-container";
@@ -13,5 +14,3 @@ function App() {
     </ToastProvider>
   );
 }
-
-export default App;
