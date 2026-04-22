@@ -101,7 +101,7 @@ function Navbar() {
           >{link}</a>
         ))}
 
-        <a href="#login" style={{
+        <a href="/login" style={{
           fontFamily: sans, fontSize: 13, fontWeight: 600,
           color: C.white, textDecoration: "none",
           background: C.blue, padding: "10px 28px",
@@ -191,7 +191,7 @@ function Hero() {
           opacity: mounted ? 1 : 0,
           transition: "opacity 0.6s ease 0.7s",
         }}>
-          <a href="#cadastro" style={{
+          <a href="/signup" style={{
             fontFamily: sans, fontSize: 15, fontWeight: 600,
             color: C.white, textDecoration: "none",
             background: C.blue, padding: "16px 40px",
@@ -418,7 +418,7 @@ function Stats() {
   ];
 
   return (
-    <section ref={ref} style={{
+    <section id="sobre" ref={ref} style={{
       padding: "80px 48px", background: C.blueDeep,
     }}>
       <div style={{
@@ -576,7 +576,7 @@ function FinalCTA() {
           Crie sua conta gratuitamente e comece a gerenciar seus projetos
           criativos de forma simples e profissional.
         </p>
-        <a href="#cadastro" style={{
+        <a href="/signup" style={{
           display: "inline-block",
           fontFamily: sans, fontSize: 16, fontWeight: 600,
           color: C.white, textDecoration: "none",
@@ -603,7 +603,7 @@ function FinalCTA() {
 /* ── Footer ── */
 function Footer() {
   return (
-    <footer style={{
+    <footer id="contato" style={{
       padding: "60px 48px 40px", background: C.text,
     }}>
       <div style={{

@@ -10,6 +10,19 @@ export const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use((config) => {
+  // Não enviar token em requisições de autenticação (login/register)
+  const isAuthRoute = config.url?.includes("/auth/");
+
+  if (isAuthRoute) {
+    return config;
+  }
+
+  // Permite passar Authorization manualmente (ex.: bootstrap /me antes de persistir sessão)
+  const existing = config.headers?.Authorization;
+  if (typeof existing === "string" && existing.length > 0) {
+    return config;
+  }
+
   const token = getAuthToken();
 
   if (token) {

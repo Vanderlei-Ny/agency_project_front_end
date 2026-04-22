@@ -1,12 +1,8 @@
 import type { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import {
-  agencyRoutes,
-  clientRoutes,
-  type SidebarIconKey,
-} from "../router/app-routes";
-import { clearAuthToken, getUserType } from "../features/auth/auth-storage";
+import { type SidebarIconKey, getRoutesForPersona } from "../router/app-routes";
+import { clearAuthToken, getAppPersona } from "../features/auth/auth-storage";
 import { useToast } from "../features/toast/toast-context";
 import { ChevronLeft, Menu, PyramidIcon, LogOut } from "lucide-react";
 
@@ -177,9 +173,8 @@ export function Sidebar({
   const navigate = useNavigate();
   const { addToast } = useToast();
 
-  // Obter rotas baseado no tipo de usuário
-  const userType = getUserType();
-  const routes = userType === "client" ? clientRoutes : agencyRoutes;
+  const persona = getAppPersona();
+  const routes = persona ? getRoutesForPersona(persona) : [];
 
   function handleLogout() {
     clearAuthToken();

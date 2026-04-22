@@ -1,7 +1,11 @@
 import type { ReactElement } from "react";
-import { HomePage } from "../pages/home-page";
-import { WorkspacePage } from "../pages/workspace-page";
+import type { AppPersona } from "../features/auth/auth-storage";
 import { ClientAgencySelector } from "../pages/client-agency-selector";
+import { ClientHomePage } from "../pages/client-home-page";
+import { ClientSolicitationsPage } from "../pages/client-solicitations-page";
+import { AgencyDashboardPage } from "../pages/agency-dashboard-page";
+import { AgencyFormsListPage } from "../pages/agency-forms-list-page";
+import { AgencySettingsPage } from "../pages/agency-settings-page";
 
 export type SidebarIconKey =
   | "compass"
@@ -12,115 +16,103 @@ export type SidebarIconKey =
   | "users"
   | "wallet";
 
+export type SidebarSection = "principal" | "operacional" | "administrativo";
+
 export type AppRouteItem = {
   path: string;
   label: string;
   icon: SidebarIconKey;
   element: ReactElement;
+  section?: SidebarSection;
 };
 
-// Rotas para agências
+// ========================
+// ROTAS PARA AGÊNCIAS (admin): apenas telas implementadas
+// ========================
 export const agencyRoutes: AppRouteItem[] = [
   {
-    path: "home",
-    label: "Home",
-    icon: "compass",
-    element: <HomePage />,
-  },
-  {
     path: "dashboard",
-    label: "Dashboard",
-    icon: "compass",
-    element: (
-      <WorkspacePage
-        title="Dashboard"
-        description="Visão geral da operação com métricas principais da agência."
-      />
-    ),
-  },
-  {
-    path: "projetos",
-    label: "Projetos",
-    icon: "grid",
-    element: (
-      <WorkspacePage
-        title="Projetos"
-        description="Organize entregas, squads e prazos dos seus clientes em um único lugar."
-      />
-    ),
-  },
-  {
-    path: "automacoes",
-    label: "Automações",
-    icon: "spark",
-    element: (
-      <WorkspacePage
-        title="Automações"
-        description="Configure fluxos automáticos para marketing, atendimento e operação."
-      />
-    ),
-  },
-  {
-    path: "suporte",
-    label: "Suporte",
-    icon: "chat",
-    element: (
-      <WorkspacePage
-        title="Suporte"
-        description="Acompanhe solicitações e centralize o suporte premium da agência."
-      />
-    ),
-  },
-  {
-    path: "analytics",
-    label: "Analytics",
+    label: "Painel",
     icon: "chart",
-    element: (
-      <WorkspacePage
-        title="Analytics"
-        description="Monitore performance de campanhas com indicadores de crescimento."
-      />
-    ),
+    element: <AgencyDashboardPage />,
+    section: "principal",
   },
   {
-    path: "equipe",
-    label: "Equipe",
-    icon: "users",
-    element: (
-      <WorkspacePage
-        title="Equipe"
-        description="Gerencie permissões, membros e funções por núcleo operacional."
-      />
-    ),
+    path: "solicitacoes",
+    label: "Solicitações",
+    icon: "chat",
+    element: <AgencyFormsListPage />,
+    section: "principal",
   },
   {
-    path: "financeiro",
-    label: "Financeiro",
-    icon: "wallet",
-    element: (
-      <WorkspacePage
-        title="Financeiro"
-        description="Controle contratos, recebimentos e indicadores financeiros da operação."
-      />
-    ),
+    path: "configuracoes",
+    label: "Configurações",
+    icon: "grid",
+    element: <AgencySettingsPage />,
+    section: "principal",
   },
 ];
 
-// Rotas para clientes
+// ========================
+// ROTAS AUDITOR (AGENCY_MEMBER): só solicitações recebidas + detalhe/resposta
+// ========================
+export const agencyAuditorRoutes: AppRouteItem[] = [
+  {
+    path: "solicitacoes",
+    label: "Solicitações recebidas",
+    icon: "chat",
+    element: <AgencyFormsListPage />,
+    section: "principal",
+  },
+];
+
+// ========================
+// ROTAS PARA CLIENTES
+// ========================
 export const clientRoutes: AppRouteItem[] = [
   {
-    path: "home",
-    label: "Home",
+    path: "inicio",
+    label: "Início",
     icon: "compass",
-    element: <HomePage />,
+    element: <ClientHomePage />,
+    section: "principal",
   },
   {
     path: "agencias",
-    label: "Escolha uma Agência",
+    label: "Escolher agência",
     icon: "grid",
     element: <ClientAgencySelector />,
+    section: "principal",
+  },
+  {
+    path: "solicitacoes",
+    label: "Minhas solicitações",
+    icon: "chat",
+    element: <ClientSolicitationsPage />,
+    section: "principal",
   },
 ];
+
+// ========================
+// ORGANIZAR ROTAS POR SEÇÃO
+// ========================
+export function getRoutesBySection(
+  routes: AppRouteItem[],
+  section: SidebarSection,
+): AppRouteItem[] {
+  return routes.filter((route) => route.section === section);
+}
+
+export function getRoutesForPersona(persona: AppPersona): AppRouteItem[] {
+  switch (persona) {
+    case "client":
+      return clientRoutes;
+    case "agency_auditor":
+      return agencyAuditorRoutes;
+    case "agency_admin":
+      return agencyRoutes;
+  }
+}
 
 // Para compatibilidade com código existente
 export const appRouteItems: AppRouteItem[] = agencyRoutes;

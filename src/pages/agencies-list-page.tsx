@@ -39,9 +39,9 @@ export function AgenciesListPage() {
   const handleSelectAgency = (agencyId: string) => {
     setSelectedAgency(agencyId);
     addToast("Agência selecionada com sucesso!", "success");
-    // Navegar para home após selecionar agência
+    // Navegar para formulário após selecionar agência
     setTimeout(() => {
-      navigate("/app/home");
+      navigate("/app/nova-solicitacao", { state: { agencyId } });
     }, 300);
   };
 
@@ -100,13 +100,14 @@ export function AgenciesListPage() {
               <button
                 key={agency.id}
                 onClick={() => handleSelectAgency(agency.id)}
-                className={`group relative min-h-72 transform overflow-hidden rounded-2xl border-2 transition hover:scale-105 ${
+                className={`group relative min-h-80 transform overflow-hidden rounded-2xl border-2 transition hover:scale-105 ${
                   selectedAgency === agency.id
                     ? "border-black bg-black"
                     : "border-slate-200 bg-white hover:border-slate-400"
                 }`}
               >
                 <div className="flex min-h-full flex-col justify-between p-5 sm:p-6 lg:p-7">
+                  {/* Header */}
                   <div className="text-left">
                     <div className="flex items-start justify-between">
                       <h3
@@ -131,18 +132,36 @@ export function AgenciesListPage() {
                         </span>
                       </div>
                     </div>
-                    <p
-                      className={`mt-3 text-sm font-medium transition ${
-                        selectedAgency === agency.id
-                          ? "text-slate-100"
-                          : "text-slate-600"
-                      }`}
-                    >
-                      Especializada em soluções criativas de marketing digital e
-                      desenvolvimento web.
-                    </p>
                   </div>
 
+                  {/* Imagem no meio */}
+                  <div className="my-4 flex justify-center">
+                    {agency.iconAgency ? (
+                      <img
+                        src={agency.iconAgency}
+                        alt={agency.name}
+                        className="h-24 w-24 rounded-lg object-cover shadow-md"
+                      />
+                    ) : (
+                      <div className="flex h-24 w-24 items-center justify-center rounded-lg bg-slate-200">
+                        <svg
+                          width="48"
+                          height="48"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="text-slate-400"
+                        >
+                          <path d="M21 21H3V3h9V1H3a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2v-9h-2v9z" />
+                          <circle cx="10.5" cy="7.5" r="1.5" />
+                          <path d="M21 15l-5-5L5 21" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Footer */}
                   <div
                     className={`mt-4 flex items-center gap-2 transition ${
                       selectedAgency === agency.id

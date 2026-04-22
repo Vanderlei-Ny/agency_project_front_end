@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 /*
- * Omnify Marketing — Dashboard (conteúdo apenas)
- * Este componente deve ser usado DENTRO do <Layout>
- * A sidebar e a topbar vêm do Layout.jsx
+ * PROTÓTIPO LEGADO (Omnify) — não ligado ao React Router do app.
+ * Dados mock e estilo próprio (inline). O painel real da agência é
+ * `src/pages/agency-dashboard-page.tsx` em /app/dashboard.
  */
 
 const FONTS = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap";

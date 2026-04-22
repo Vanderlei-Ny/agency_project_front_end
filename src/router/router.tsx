@@ -7,24 +7,103 @@ import {
 import { RootLayout } from "../layouts/root-layout";
 import { AppLayout } from "../layouts/app-layout";
 import { LoginPage } from "../pages/login-page";
-import { SignupPage } from "../pages/signup-page";
+import { SignupHubPage } from "../pages/signup-hub-page";
+import { SignupClientPage } from "../pages/signup-client-page";
+import { SignupAgencyPage } from "../pages/signup-agency-page";
 import { CreateAgencyPage } from "../pages/create-agency-page";
 import { AgenciesListPage } from "../pages/agencies-list-page";
-import { agencyRoutes, clientRoutes } from "./app-routes";
-import { getUserType } from "../features/auth/auth-storage";
+import { ClientFormPage } from "../pages/client-form-page";
+import { ClientSolicitationDetailPage } from "../pages/client-solicitation-detail-page";
+import { ClientBudgetReviewPage } from "../pages/client-budget-review-page";
+import { AgencyDashboardPage } from "../pages/agency-dashboard-page";
+import { AgencyFormDetailPage } from "../pages/agency-form-detail-page";
+import { ClientAgencySelector } from "../pages/client-agency-selector";
+import { ClientHomePage } from "../pages/client-home-page";
+import { PublicRootPage } from "../pages/public-root-page";
+import { AgencySettingsPage } from "../pages/agency-settings-page";
+import { SolicitacoesEntryPage } from "../pages/solicitacoes-entry-page";
+import { AppIndexRedirect } from "../pages/app-index-redirect";
+import { RouteGuard } from "../components/route-guard";
+import { PrivateRoute } from "../components/private-route";
 
-// Obter rotas baseado no tipo de usuário
-function getAppRoutes(): RouteObject[] {
-  const userType = getUserType();
-  const routes = userType === "client" ? clientRoutes : agencyRoutes;
-
+function appAreaRoutes(): RouteObject[] {
   return [
-    { index: true, element: <Navigate to="home" replace /> },
+    { index: true, element: <AppIndexRedirect /> },
+    {
+      path: "inicio",
+      element: (
+        <RouteGuard allowedPersonas={["client"]}>
+          <ClientHomePage />
+        </RouteGuard>
+      ),
+    },
+    {
+      path: "dashboard",
+      element: (
+        <RouteGuard allowedPersonas={["agency_admin"]}>
+          <AgencyDashboardPage />
+        </RouteGuard>
+      ),
+    },
     { path: "sidebar-preview", element: <div className="min-h-dvh" /> },
-    ...routes.map((route) => ({
-      path: route.path,
-      element: route.element,
-    })),
+    {
+      path: "agencias",
+      element: (
+        <RouteGuard allowedPersonas={["client"]}>
+          <ClientAgencySelector />
+        </RouteGuard>
+      ),
+    },
+    {
+      path: "solicitacoes",
+      element: (
+        <RouteGuard
+          allowedPersonas={["client", "agency_admin", "agency_auditor"]}
+        >
+          <SolicitacoesEntryPage />
+        </RouteGuard>
+      ),
+    },
+    {
+      path: "configuracoes",
+      element: (
+        <RouteGuard allowedPersonas={["agency_admin"]}>
+          <AgencySettingsPage />
+        </RouteGuard>
+      ),
+    },
+    {
+      path: "nova-solicitacao",
+      element: (
+        <RouteGuard allowedPersonas={["client"]}>
+          <ClientFormPage />
+        </RouteGuard>
+      ),
+    },
+    {
+      path: "solicitacao/:formId/revisar",
+      element: (
+        <RouteGuard allowedPersonas={["client"]}>
+          <ClientBudgetReviewPage />
+        </RouteGuard>
+      ),
+    },
+    {
+      path: "solicitacao/:formId",
+      element: (
+        <RouteGuard allowedPersonas={["client"]}>
+          <ClientSolicitationDetailPage />
+        </RouteGuard>
+      ),
+    },
+    {
+      path: "solicitacoes/:formId",
+      element: (
+        <RouteGuard allowedPersonas={["agency_admin", "agency_auditor"]}>
+          <AgencyFormDetailPage />
+        </RouteGuard>
+      ),
+    },
   ];
 }
 
@@ -33,15 +112,39 @@ const routes: RouteObject[] = [
     path: "/",
     element: <RootLayout />,
     children: [
-      { index: true, element: <Navigate to="/login" replace /> },
+      { index: true, element: <PublicRootPage /> },
       { path: "/login", element: <LoginPage /> },
-      { path: "/signup", element: <SignupPage /> },
-      { path: "/create-agency", element: <CreateAgencyPage /> },
-      { path: "/agencies-list", element: <AgenciesListPage /> },
+      { path: "/signup", element: <SignupHubPage /> },
+      { path: "/signup/client", element: <SignupClientPage /> },
+      { path: "/signup/agency", element: <SignupAgencyPage /> },
+      {
+        path: "/create-agency",
+        element: (
+          <PrivateRoute>
+            <RouteGuard allowedPersonas={["agency_admin"]}>
+              <CreateAgencyPage />
+            </RouteGuard>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/agencies-list",
+        element: (
+          <PrivateRoute>
+            <RouteGuard allowedPersonas={["client"]}>
+              <AgenciesListPage />
+            </RouteGuard>
+          </PrivateRoute>
+        ),
+      },
       {
         path: "/app",
-        element: <AppLayout />,
-        children: getAppRoutes(),
+        element: (
+          <PrivateRoute>
+            <AppLayout />
+          </PrivateRoute>
+        ),
+        children: appAreaRoutes(),
       },
       { path: "*", element: <Navigate to="/login" replace /> },
     ],

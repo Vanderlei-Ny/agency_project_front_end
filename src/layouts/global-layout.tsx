@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AUTH_UNAUTHORIZED_EVENT } from "../features/auth/auth-events";
-import { Sidebar } from "../components/sidebar";
+import { SidebarNew } from "../components/sidebar-new";
 import { isAuthenticated } from "../features/auth/auth-storage";
 import { AppRouter } from "../router/router";
 
@@ -29,12 +29,12 @@ export function GlobalLayout() {
 
   return (
     <div className="min-h-dvh bg-slate-100">
-      <Sidebar
+      <SidebarNew
         isMobileOpen={isMobileSidebarOpen}
         onOpenMobile={() => setIsMobileSidebarOpen(true)}
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
-      <main className="min-h-dvh px-3 py-4 sm:pl-24 sm:pr-6 sm:py-6 lg:pl-28 lg:pr-8 lg:py-8">
+      <main className="min-h-dvh px-3 py-4 sm:pl-72 sm:pr-6 sm:py-6 lg:pl-80 lg:pr-8 lg:py-8">
         <AppRouter />
       </main>
     </div>
