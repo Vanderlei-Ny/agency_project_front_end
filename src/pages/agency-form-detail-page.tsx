@@ -327,6 +327,25 @@ export function AgencyFormDetailPage() {
             </div>
           )}
 
+          {form.respondedByUser && (
+            <div className="space-y-3 rounded-lg bg-blue-50 p-4 ring-1 ring-blue-200">
+              <h2 className="text-sm font-semibold text-blue-950">
+                Respondido por
+              </h2>
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-blue-900">
+                  {form.respondedByUser.name}
+                </p>
+                <p className="text-xs text-blue-700">{form.respondedByUser.email}</p>
+                {form.respondedAt && (
+                  <p className="text-xs text-blue-600">
+                    {new Date(form.respondedAt).toLocaleString("pt-BR")}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="border-t border-slate-200" />
 
           {/* Budget Section */}

@@ -55,7 +55,6 @@ export function LoginPage() {
       <section className="w-full max-w-full overflow-hidden rounded-2xl p-2 sm:max-w-6xl sm:p-4 lg:p-6">
         <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-b from-white via-white to-slate-50 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2">
-            {/* Painel visual (esquerda no desktop) */}
             <aside className="relative order-1 hidden min-h-[min(100%,28rem)] overflow-hidden bg-black lg:flex lg:min-h-[36rem] lg:flex-col">
               <div
                 className="absolute inset-0 opacity-[0.08]"
@@ -85,7 +84,6 @@ export function LoginPage() {
               </div>
             </aside>
 
-            {/* Formulário (direita no desktop) */}
             <div className="order-2 flex min-w-0 flex-col bg-slate-100 px-5 py-8 sm:px-8 sm:py-10 md:px-10 lg:px-12">
               <div className="mb-6 flex justify-center rounded-2xl bg-black px-6 py-5 lg:hidden">
                 <img

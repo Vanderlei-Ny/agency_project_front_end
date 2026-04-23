@@ -21,6 +21,7 @@ import { ClientAgencySelector } from "../pages/client-agency-selector";
 import { ClientHomePage } from "../pages/client-home-page";
 import { PublicRootPage } from "../pages/public-root-page";
 import { AgencySettingsPage } from "../pages/agency-settings-page";
+import { AgencyAddMembersPage } from "../pages/agency-add-members-page";
 import { SolicitacoesEntryPage } from "../pages/solicitacoes-entry-page";
 import { AppIndexRedirect } from "../pages/app-index-redirect";
 import { RouteGuard } from "../components/route-guard";
@@ -40,7 +41,7 @@ function appAreaRoutes(): RouteObject[] {
     {
       path: "dashboard",
       element: (
-        <RouteGuard allowedPersonas={["agency_admin"]}>
+        <RouteGuard allowedPersonas={["agency_admin", "agency_auditor"]}>
           <AgencyDashboardPage />
         </RouteGuard>
       ),
@@ -67,8 +68,16 @@ function appAreaRoutes(): RouteObject[] {
     {
       path: "configuracoes",
       element: (
-        <RouteGuard allowedPersonas={["agency_admin"]}>
+        <RouteGuard allowedPersonas={["agency_admin", "agency_auditor"]}>
           <AgencySettingsPage />
+        </RouteGuard>
+      ),
+    },
+    {
+      path: "funcionarios",
+      element: (
+        <RouteGuard allowedPersonas={["agency_admin", "agency_auditor"]}>
+          <AgencyAddMembersPage />
         </RouteGuard>
       ),
     },

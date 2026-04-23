@@ -22,6 +22,12 @@ export type FormData = {
     id: string;
     name: string;
   };
+  respondedByUser?: {
+    id: string;
+    name: string;
+    email: string;
+  } | null;
+  respondedAt?: string | null;
   budgetValue?: string;
   budgetMessage?: string | null;
   deliveryStoredName?: string | null;

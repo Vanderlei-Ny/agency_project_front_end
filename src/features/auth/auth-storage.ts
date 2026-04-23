@@ -7,12 +7,10 @@ import type {
 
 const SESSION_KEY = "agency.auth.session.v1";
 
-/** Snapshot único da sessão (evita token/role/user dessincronizados). */
 export type AuthSessionV1 = {
   v: 1;
   token: string;
   user: SessionUser;
-  /** Só usado com `user.role === "CLIENT"`. */
   clientSignupIntent: ClientSignupIntent;
 };
 
@@ -26,11 +24,11 @@ export type {
 export function getDefaultAppPath(persona: AppPersona): string {
   switch (persona) {
     case "client":
-      return "inicio";
+      return "agencies-list";
     case "agency_auditor":
       return "solicitacoes";
     case "agency_admin":
-      return "solicitacoes";
+      return "home";
   }
 }
 
@@ -161,9 +159,6 @@ export function getUserRole(): ApiUserRole | null {
   return readSession()?.user.role ?? null;
 }
 
-/**
- * Grava sessão completa. Sempre use após login/registro ou refresh via /me.
- */
 export function saveAuthSession(input: {
   token: string;
   user: SessionUser;
@@ -194,10 +189,7 @@ export function getAppPersona(): AppPersona | null {
   if (user.role === "CLIENT") {
     return "client";
   }
-  if (user.role === "AGENCY_MEMBER") {
-    return "agency_auditor";
-  }
-  if (user.role === "AGENCY_ADMIN" || user.role === "SUPERADMIN") {
+  if (user.role === "AGENCY_MEMBER" || user.role === "AGENCY_ADMIN" || user.role === "SUPERADMIN") {
     return "agency_admin";
   }
   return null;

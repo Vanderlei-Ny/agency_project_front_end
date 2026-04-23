@@ -6,12 +6,10 @@ import {
   getRoutesBySection,
   getRoutesForPersona,
 } from "../router/app-routes";
-import { clearAuthToken, getAppPersona } from "../features/auth/auth-storage";
-import type { AppPersona } from "../features/auth/auth-types";
+import { clearAuthToken, getAppPersona, getSessionUser } from "../features/auth/auth-storage";
 import { useToast } from "../features/toast/toast-context";
 import { ChevronLeft, Menu, PyramidIcon, LogOut } from "lucide-react";
 
-// Seções da sidebar
 const SIDEBAR_SECTIONS: Record<SidebarSection, string> = {
   principal: "Principal",
   operacional: "Operacional",
@@ -38,42 +36,10 @@ function SidebarIcon({ kind }: { kind: SidebarIconKey }) {
     ),
     grid: (
       <svg viewBox="0 0 24 24" fill="none" className={cls} aria-hidden="true">
-        <rect
-          x="4"
-          y="4"
-          width="7"
-          height="7"
-          rx="1.5"
-          stroke="currentColor"
-          strokeWidth="1.7"
-        />
-        <rect
-          x="13"
-          y="4"
-          width="7"
-          height="7"
-          rx="1.5"
-          stroke="currentColor"
-          strokeWidth="1.7"
-        />
-        <rect
-          x="4"
-          y="13"
-          width="7"
-          height="7"
-          rx="1.5"
-          stroke="currentColor"
-          strokeWidth="1.7"
-        />
-        <rect
-          x="13"
-          y="13"
-          width="7"
-          height="7"
-          rx="1.5"
-          stroke="currentColor"
-          strokeWidth="1.7"
-        />
+        <rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.7" />
+        <rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.7" />
+        <rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.7" />
+        <rect x="13" y="13" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.7" />
       </svg>
     ),
     spark: (
@@ -98,24 +64,9 @@ function SidebarIcon({ kind }: { kind: SidebarIconKey }) {
     ),
     chart: (
       <svg viewBox="0 0 24 24" fill="none" className={cls} aria-hidden="true">
-        <path
-          d="M5 19V11"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-        />
-        <path
-          d="M12 19V7"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-        />
-        <path
-          d="M19 19V13"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-        />
+        <path d="M5 19V11" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="M12 19V7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="M19 19V13" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
       </svg>
     ),
     users: (
@@ -127,32 +78,13 @@ function SidebarIcon({ kind }: { kind: SidebarIconKey }) {
           strokeWidth="1.7"
           strokeLinecap="round"
         />
-        <circle
-          cx="17.3"
-          cy="9.7"
-          r="2.3"
-          stroke="currentColor"
-          strokeWidth="1.7"
-        />
+        <circle cx="17.3" cy="9.7" r="2.3" stroke="currentColor" strokeWidth="1.7" />
       </svg>
     ),
     wallet: (
       <svg viewBox="0 0 24 24" fill="none" className={cls} aria-hidden="true">
-        <rect
-          x="3"
-          y="6"
-          width="18"
-          height="12"
-          rx="2"
-          stroke="currentColor"
-          strokeWidth="1.7"
-        />
-        <path
-          d="M16 12H18"
-          stroke="currentColor"
-          strokeWidth="1.7"
-          strokeLinecap="round"
-        />
+        <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" strokeWidth="1.7" />
+        <path d="M16 12H18" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
       </svg>
     ),
   };
@@ -166,17 +98,6 @@ type SidebarProps = {
   onCloseMobile: () => void;
 };
 
-function sidebarPersonaCopy(persona: AppPersona) {
-  switch (persona) {
-    case "client":
-      return { badge: "Cliente", title: "Minha conta" };
-    case "agency_auditor":
-      return { badge: "Auditor", title: "Solicitações" };
-    case "agency_admin":
-      return { badge: "Agência", title: "Painel administrativo" };
-  }
-}
-
 export function SidebarNew({
   isMobileOpen,
   onOpenMobile,
@@ -185,11 +106,10 @@ export function SidebarNew({
   const navigate = useNavigate();
   const { addToast } = useToast();
 
+  const user = getSessionUser();
   const persona = getAppPersona();
   const routes = persona ? getRoutesForPersona(persona) : [];
-  const personaCopy = persona ? sidebarPersonaCopy(persona) : null;
 
-  // Obter seções disponíveis
   const sections: SidebarSection[] = [
     "principal",
     "operacional",
@@ -205,9 +125,6 @@ export function SidebarNew({
     navigate("/login");
   }
 
-  // ============================
-  // RENDER - MENU MOBILE
-  // ============================
   const MobileMenu = (
     <aside
       className={[
@@ -218,12 +135,10 @@ export function SidebarNew({
     >
       <div className="h-full rounded-[1.8rem] bg-white p-1.5 shadow-xl ring-1 ring-slate-200/70">
         <div className="flex h-full w-full flex-col items-center rounded-3xl bg-slate-950 py-3 text-slate-500">
-          {/* Logo */}
           <div className="grid h-9 w-9 place-items-center rounded-full bg-slate-100 text-slate-700 shadow">
             <PyramidIcon />
           </div>
 
-          {/* Close Button */}
           <button
             type="button"
             onClick={onCloseMobile}
@@ -233,7 +148,6 @@ export function SidebarNew({
             <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </button>
 
-          {/* Navigation */}
           <nav
             className="mt-3 flex flex-1 flex-col items-center gap-2 overflow-y-auto"
             aria-label="Navegação principal"
@@ -259,7 +173,6 @@ export function SidebarNew({
             ))}
           </nav>
 
-          {/* Logout */}
           <div className="mb-1 mt-auto flex flex-col items-center gap-2">
             <IconDot />
             <button
@@ -277,41 +190,34 @@ export function SidebarNew({
     </aside>
   );
 
-  // ============================
-  // RENDER - MENU DESKTOP
-  // ============================
   const DesktopMenu = (
     <aside className="fixed left-3 top-1/2 z-30 hidden -translate-y-1/2 sm:left-4 sm:block">
       <div className="rounded-[1.8rem] bg-white p-1.5 shadow-xl ring-1 ring-slate-200/70">
         <div className="flex max-h-[86dvh] w-64 flex-col overflow-hidden rounded-3xl bg-slate-950 text-slate-500">
-          {/* Header */}
           <div className="flex items-center gap-3 border-b border-slate-800 px-4 py-4">
             <div className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-slate-100 text-slate-700 shadow">
               <PyramidIcon />
             </div>
-            <div>
+            <div className="overflow-hidden">
               <p className="text-xs font-bold uppercase tracking-widest text-slate-300">
-                {personaCopy?.badge ?? "—"}
+                {user?.role === "AGENCY_MEMBER" ? "Funcionário" : user?.role === "CLIENT" ? "Cliente" : "Gerente"}
               </p>
-              <p className="text-sm font-semibold text-slate-100">
-                {personaCopy?.title ?? "Conta"}
+              <p className="truncate text-sm font-semibold text-slate-100">
+                {user?.name ?? "Conta"}
               </p>
             </div>
           </div>
 
-          {/* Navigation */}
           <nav className="flex-1 overflow-y-auto px-2 py-4">
             {availableSections.map((section) => {
               const sectionRoutes = getRoutesBySection(routes, section);
 
               return (
                 <div key={section} className="mb-6 last:mb-0">
-                  {/* Section Header */}
                   <p className="mb-2 px-3 text-xs font-bold uppercase tracking-widest text-slate-400">
                     {SIDEBAR_SECTIONS[section]}
                   </p>
 
-                  {/* Section Items */}
                   <div className="space-y-1">
                     {sectionRoutes.map((route) => (
                       <NavLink
@@ -339,7 +245,6 @@ export function SidebarNew({
             })}
           </nav>
 
-          {/* Footer */}
           <div className="border-t border-slate-800 px-2 py-4">
             <button
               type="button"
@@ -356,12 +261,8 @@ export function SidebarNew({
     </aside>
   );
 
-  // ============================
-  // RENDER FINAL
-  // ============================
   return (
     <>
-      {/* Mobile Toggle Button */}
       <button
         type="button"
         onClick={onOpenMobile}
@@ -371,7 +272,6 @@ export function SidebarNew({
         <Menu className="h-5 w-5" aria-hidden="true" />
       </button>
 
-      {/* Mobile Overlay */}
       <div
         className={[
           "fixed inset-0 z-50 bg-slate-950/45 transition-opacity duration-200 sm:hidden",
@@ -383,7 +283,6 @@ export function SidebarNew({
         aria-hidden={!isMobileOpen}
       />
 
-      {/* Menus */}
       {MobileMenu}
       {DesktopMenu}
     </>

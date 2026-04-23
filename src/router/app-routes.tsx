@@ -6,6 +6,7 @@ import { ClientSolicitationsPage } from "../pages/client-solicitations-page";
 import { AgencyDashboardPage } from "../pages/agency-dashboard-page";
 import { AgencyFormsListPage } from "../pages/agency-forms-list-page";
 import { AgencySettingsPage } from "../pages/agency-settings-page";
+import { AgencyAddMembersPage } from "../pages/agency-add-members-page";
 
 export type SidebarIconKey =
   | "compass"
@@ -50,6 +51,13 @@ export const agencyRoutes: AppRouteItem[] = [
     icon: "grid",
     element: <AgencySettingsPage />,
     section: "principal",
+  },
+  {
+    path: "funcionarios",
+    label: "Funcionários",
+    icon: "users",
+    element: <AgencyAddMembersPage />,
+    section: "administrativo",
   },
 ];
 
